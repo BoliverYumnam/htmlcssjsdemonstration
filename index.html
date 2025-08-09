@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Codemaster's Playground — Fixed Demo</title>
+<style>
+:root{
+  --bg-1:#05030b; --bg-2:#081022;
+  --accent-a:#00ffd5; --accent-b:#ff3dd1; --accent-c:#7bff6f;
+  --card: rgba(255,255,255,0.04);
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
+  --radius:12px;
+}
+*{box-sizing:border-box}
+html,body,#app{height:100%}
+body{
+  margin:0;font-family:Inter,system-ui,Arial;color:#eaf7ff;
+  background: radial-gradient(800px 400px at 12% 12%, rgba(0,120,180,0.06), transparent),
+             linear-gradient(180deg,var(--bg-1),var(--bg-2));
+  display:flex;align-items:center;justify-content:center;padding:24px;
+}
+/* Bounce Text */
+.bounce-text {
+  animation: bounce 1.2s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.css-room .logo-3d {
+  display: inline-block;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+@keyframes cssDanceMoves {
+  0%   { transform: translate3d(0, 0, 0) rotateX(0deg)   rotateY(0deg); }
+  20%  { transform: translate3d(50px, 0, 50px) rotateX(30deg) rotateY(30deg); }
+  40%  { transform: translate3d(50px, 50px, -50px) rotateX(60deg) rotateY(60deg); }
+  60%  { transform: translate3d(-50px, 50px, 50px) rotateX(90deg) rotateY(90deg); }
+  80%  { transform: translate3d(-50px, -50px, -50px) rotateX(120deg) rotateY(120deg); }
+  100% { transform: translate3d(0, 0, 0) rotateX(360deg) rotateY(360deg); }
+}
+
+.css-dance {
+  animation: cssDanceMoves 2s ease-in-out forwards;
+}
+
+
+/* Center the CSS text in the rounded square */
+.logo-3d {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  width: 120px;
+  height: 120px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ff00cc, #3333ff);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease-in-out;
+  margin: auto; /* keeps it centered inside parent flex/grid */
+}
+
+/* Animation keyframes */
+@keyframes crazyMove {
+  0% { transform: translate(0,0) rotateX(0) rotateY(0) scale(1); }
+  25% { transform: translateX(50px) rotateY(90deg) scale(1.2); }
+  50% { transform: translateY(50px) rotateX(180deg) scale(0.8); }
+  75% { transform: translate(-50px, -50px) rotateY(270deg) scale(1.3); }
+  100% { transform: translate(0,0) rotateX(360deg) rotateY(360deg) scale(1); }
+}
+
+/* Active animation class */
+.logo-3d.animate {
+  animation: crazyMove 3s ease-in-out infinite;
+}
+
+
+/* Accordion */
+.accordion input { display: none; }
+.accordion label {
+  display: block;
+  background: rgba(255,255,255,0.1);
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+.accordion label:hover { background: rgba(255,255,255,0.2); }
+.accContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.accordion input:checked ~ .accContent {
+  max-height: 100px;
+}
+
+
+/* Flexbox to align side-by-side */
+.card-container {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between the cards */
+}
+
+/* Outer flip card container */
+.flipCard {
+  width: 120px;    /* fixed width */
+  height: 150px;   /* fixed height */
+  perspective: 600px; /* keep perspective if needed */
+  margin: 0;       /* remove margin if any */
+}
+
+/* Inner flip container */
+.flipInner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+/* Both front and back sides */
+.flipFront,
+.flipBack {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0; left: 0;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  box-sizing: border-box;
+  /* you can add border or box-shadow here if you want */
+}
+
+/* Flip back is hidden initially */
+.flipBack {
+  transform: rotateY(180deg);
+}
+
+
+.spin-card {
+    width: 120px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spin-inner {
+    width: 100px;      /* smaller so it looks like a wheel */
+    height: 100px;
+    background: lightblue;
+    border-radius: 50%; /* make it round like a wheel */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    animation: spin-wheel 2s linear infinite; /* continuous spin */
+}
+
+@keyframes spin-wheel {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+
+/* Flip Card */
+.flipCard {
+  background: transparent;
+  width: 120px;
+  height: 150px;
+  perspective: 800px;
+  margin-top: 10px;
+}
+.flipInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+.flipCard:hover .flipInner {
+  transform: rotateY(180deg);
+}
+.flipFront, .flipBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,255,255,0.2);
+  border: 1px solid #0ff;
+  border-radius: 8px;
+}
+.flipBack {
+  transform: rotateY(180deg);
+  background: rgba(255,0,255,0.2);
+}
+.spin-me {
+  animation: spin 5.5s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Base spinning card style */
+.spin-card {
+  width: 120px;
+  height: 150px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--accent-a), var(--accent-b));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transform-origin: center;
+  transition: transform 0.3s ease;
+  perspective: 1000px; /* helps with 3D look */
+}
+
+/* The text inside */
+.spin-inner {
+  font-weight: bold;
+  font-size: 20px;
+  color: white;
+}
+
+/* Rotation animation */
+.spin-card:hover {
+  animation: spin360 1.5s linear infinite;
+}
+
+@keyframes spin360 {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+
+.container{width:100%;max-width:1200px;height:78vh;border-radius:16px;display:grid;grid-template-columns:1fr 360px;overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.03));box-shadow:0 18px 60px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+.stage{position:relative;padding:20px;display:flex;align-items:center;justify-content:center}
+.stage-shell{width:100%;height:100%;border-radius:12px;background:linear-gradient(180deg, rgba(4,8,18,0.6), rgba(3,5,12,0.4));overflow:hidden;position:relative;border:1px solid rgba(255,255,255,0.02)}
+.toolbar{position:absolute;left:18px;top:18px;display:flex;gap:10px;align-items:center;z-index:30}
+.btn{background:linear-gradient(90deg,var(--accent-a),var(--accent-b));border:none;padding:8px 12px;border-radius:10px;color:#021018;font-weight:700;cursor:pointer;box-shadow:0 8px 28px rgba(0,0,0,0.5),0 0 18px rgba(0,255,213,0.06)}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:inherit;font-weight:600}
+.room-tabs{position:absolute;right:18px;top:18px;display:flex;gap:8px;z-index:30}
+.room-tab{padding:8px 10px;border-radius:9px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02);cursor:pointer;user-select:none}
+.room-tab.active{background:linear-gradient(90deg,var(--accent-b),var(--accent-a));color:#021018;font-weight:800}
+.scene-panel{position:absolute;inset:0;padding:28px;display:none}
+.scene-panel.active{display:block}
+#mainCanvas,#physicsCanvas{width:100%;height:100%;display:block;border-radius:8px;background:linear-gradient(180deg, rgba(2,6,12,0.6), rgba(0,0,0,0.35));}
+.panel{padding:22px;display:flex;flex-direction:column;gap:12px;background:linear-gradient(180deg, rgba(255,255,255,0.012), rgba(0,0,0,0.03));}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent-a),var(--accent-b));display:flex;align-items:center;justify-content:center;font-weight:800;color:#021018}
+.title{font-size:16px;font-weight:700}
+.subtitle{font-size:12px;color:rgba(255,255,255,0.6)}
+.control{background:var(--card);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+.small{font-size:12px;color:rgba(255,255,255,0.7)}
+.footer{margin-top:auto;font-size:12px;color:rgba(255,255,255,0.5);display:flex;justify-content:space-between}
+.css-room{display:flex;height:100%;align-items:center;justify-content:center;gap:18px}
+.card-css{width:320px;height:420px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 12px 30px rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.03);position:relative;overflow:hidden;transform-style:preserve-3d}
+.card-css::before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 120deg, rgba(0,255,213,0.05), rgba(255,61,209,0.05));transform:rotate(0deg);animation:spin 8s linear infinite}
+@keyframes spin{to{transform:rotate(1turn)}}
+.logo-3d{position:absolute;left:50%;top:13%;transform:translateX(-50%) rotateX(28deg);width:120px;height:120px;border-radius:20px;background:linear-gradient(135deg,var(--accent-b),var(--accent-c));display:grid;place-items:center;font-weight:800;font-size:20px;box-shadow:0 20px 60px rgba(123,255,140,0.08);filter:drop-shadow(0 8px 18px rgba(0,0,0,0.6));transition:transform 600ms cubic-bezier(.2,.9,.2,1)}
+.card-css.activated .logo-3d{transform:translateX(-50%) rotateX(0deg) scale(1.06) translateY(-10px) rotateZ(-6deg)}
+.pulse-btn{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);padding:10px 18px;border-radius:999px;background:linear-gradient(90deg,var(--accent-a),var(--accent-b));color:#021018;font-weight:800;border:none;cursor:pointer}
+.pulse-btn::after{content:'';position:absolute;inset:0;border-radius:999px;box-shadow:0 0 30px rgba(0,255,213,0.14);pointer-events:none}
+/* Make layout stack earlier & adapt sizes */
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    height: auto; /* avoid cutting off content */
+  }
+
+  .panel {
+    order: 2;
+    padding: 16px;
+  }
+
+  .css-room {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card-container {
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .card-css, .flipCard, .spin-card {
+    width: 80%;
+    max-width: 260px;
+    height: auto;
+  }
+
+  .logo-3d {
+    width: 80px;
+    height: 80px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Reduce padding and gap for very small devices */
+@media (max-width: 480px) {
+  body {
+    padding: 12px;
+  }
+  .toolbar, .room-tabs {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+  <div class="container" id="app">
+    <div class="stage">
+      <div class="stage-shell" role="main" aria-label="Stage">
+        <div class="toolbar" role="toolbar" aria-label="Stage controls">
+          <button class="btn ghost" id="resetBtn">Reset</button>
+          <button class="btn" id="fullscreenBtn">Fullscreen</button>
+        </div>
+        <div class="room-tabs" role="tablist" aria-label="Rooms">
+          <div class="room-tab active" data-room="cssRoom" role="tab" tabindex="0">CSS Room</div>
+          <div class="room-tab" data-room="canvasRoom" role="tab" tabindex="0">Canvas Lab</div>
+          <div class="room-tab" data-room="physicsRoom" role="tab" tabindex="0">Physics Lab</div>
+          <div class="room-tab" data-room="audioRoom" role="tab" tabindex="0">Audio Lab</div>
+        </div>
+
+    <section id="cssRoom" class="scene-panel active" aria-hidden="false">
+    <div class="css-room" aria-hidden="false">
+
+        <!-- Existing Card -->
+        <div class="card-css" id="cssCard" aria-hidden="true">
+        <div class="logo-3d bounce-text">CSS</div>
+        <button class="pulse-btn" id="tryCssBtn" aria-label="Pure CSS button">Try me</button>
+        </div>
+
+        <!-- Info Card -->
+        <div class="card-css" style="width:380px;height:420px;">
+        <div style="padding:24px;display:flex;flex-direction:column;gap:12px">
+            <h3 style="margin:0">CSS: Advanced Selectors & Animation</h3>
+            <p style="margin:0;color:rgba(255,255,255,0.7);font-size:13px">
+            This room demonstrates pure-CSS float, 3D flip, accordion, and glow animations — no JS at all.
+            </p>
+
+            <!-- Accordion -->
+            <div class="accordion">
+            <input type="checkbox" id="acc1">
+            <label for="acc1">Accordion Item</label>
+            <div class="accContent">
+                <p>Pure CSS accordion content here!</p>
+            </div>
+            </div>
+
+            <!-- Container to hold both cards side-by-side -->
+            <div class="card-container">
+                <!-- 3D Flip Card -->
+                <div class="flipCard">
+                    <div class="flipInner">
+                        <div class="flipFront">Front</div>
+                        <div class="flipBack">Back</div>
+                    </div>
+                </div>
+
+                <!-- Spinning Card -->
+                <div class="card-css spin-card">
+                    <div class="spin-inner">SPIN</div>
+                </div>
+            </div>
+
+
+
+            <div style="margin-top:auto;display:flex;gap:10px;align-items:center">
+            <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(90deg,var(--accent-a),var(--accent-b));display:grid;place-items:center;font-weight:800;color:#021018">A</div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.85)">Clip-path, filters, and mix-blend-mode used here.</div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+    </section>
+
+
+        <section id="canvasRoom" class="scene-panel" aria-hidden="true">
+          <canvas id="mainCanvas" role="img" aria-label="Canvas Lab — particles"></canvas>
+        </section>
+
+        <section id="physicsRoom" class="scene-panel" aria-hidden="true">
+          <canvas id="physicsCanvas" role="img" aria-label="Physics Lab — verlet simulation"></canvas>
+        </section>
+
+        <section id="audioRoom" class="scene-panel" aria-hidden="true">
+          <div style="display:flex;flex-direction:column;gap:12px;height:100%;padding:24px">
+            <div style="display:flex;gap:12px;align-items:center">
+              <div style="font-weight:800">Audio Lab</div>
+              <div style="color:rgba(255,255,255,0.7)">Realtime WebAudio synth + analyser visualizer</div>
+            </div>
+            <div style="flex:1;display:grid;grid-template-columns:1fr 300px;gap:12px">
+              <div style="background:var(--card);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px">
+                <div style="font-weight:700">Synth Controls</div>
+                <label class="small">Waveform
+                  <select id="waveSelect" style="width:100%"><option>sine</option><option>square</option><option>sawtooth</option><option>triangle</option></select>
+                </label>
+                <label class="small">Freq
+                  <input id="freqSlider" type="range" min="80" max="1200" value="440" style="width:100%" />
+                </label>
+                <button id="playNote" class="btn">Play Note</button>
+              </div>
+              <div style="background:var(--card);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px">
+                <div style="font-weight:700">Visualizer</div>
+                <canvas id="audioViz" style="width:100%;height:100%;border-radius:8px;background:transparent"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <aside class="panel" role="complementary" aria-label="Inspector">
+      <div class="brand">
+        <div class="logo">CP</div>
+        <div>
+          <div class="title">Codemaster's Playground</div>
+          <div class="subtitle">A deep HTML/CSS/JS showcase</div>
+        </div>
+      </div>
+
+      <div class="control">
+        <div style="font-weight:700">Active Room</div>
+        <div id="activeRoomLabel" class="small">CSS Room</div>
+      </div>
+
+      <div class="control">
+        <div style="font-weight:700">Canvas Settings</div>
+        <div style="display:flex;gap:8px;align-items:center"><label class="small">Particles</label><input id="particlesRange" type="range" min="0" max="1000" value="240" class="range"></div>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:8px"><label class="small">Blend</label><select id="blendMode"><option value="lighter">lighter</option><option value="screen">screen</option><option value="source-over">normal</option></select></div>
+      </div>
+
+      <div class="control">
+        <div style="font-weight:700">Physics Settings</div>
+        <div style="display:flex;gap:8px;align-items:center"><label class="small">Rope Segments</label><input id="ropeSeg" type="range" min="3" max="64" value="18"/></div>
+      </div>
+
+      <div class="control">
+        <div style="font-weight:700">Audio</div>
+        <div style="display:flex;gap:8px;align-items:center"><label class="small">Volume</label><input id="volume" type="range" min="0" max="1" step="0.01" value="0.6"/></div>
+      </div>
+
+      <div class="footer">
+        <div class="small">Built with modern web APIs — inspect the code to learn more.</div>
+        <div class="small">v1.0</div>
+      </div>
+    </aside>
+
+  </div>
+
+<script type="module">
+document.addEventListener("DOMContentLoaded", function() {
+    // Basic mobile detection using the User-Agent string
+    var isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isMobile) {
+        alert("A Browser Version of mobile devices detected.\n Please enable Desktop Mode for full functionality.");
+        // Or, if you want it as a visible banner instead of an alert:
+        // var msg = document.createElement("div");
+        // msg.textContent = "Please enable Desktop Mode for full functionality.";
+        // msg.style.cssText = "position:fixed;top:0;left:0;width:100%;padding:10px;background:red;color:white;text-align:center;z-index:9999;";
+        // document.body.appendChild(msg);
+    }
+});
+
+/* Fixed interactive script for all rooms.
+   - Tab switching now initializes and starts relevant labs.
+   - Single rAF loop handles active room updates.
+   - Proper canvas resizing and DPR handling.
+*/
+
+// helpers
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+
+// state + elements
+const tabs = $$('.room-tab'), panels = $$('.scene-panel'), activeLabel = $('#activeRoomLabel');
+const mainCanvas = $('#mainCanvas'), mainCtx = mainCanvas.getContext('2d', { alpha:true });
+const physicsCanvas = $('#physicsCanvas'), physCtx = physicsCanvas.getContext('2d', { alpha:true });
+const audioViz = $('#audioViz'), audioVizCtx = audioViz.getContext('2d');
+
+let state = {
+  activeRoom: 'cssRoom',
+  particles: +$('#particlesRange').value,
+  blend: $('#blendMode').value,
+  ropeSeg: +$('#ropeSeg').value,
+  volume: +$('#volume').value
+};
+
+// wiring: tabs
+tabs.forEach(t => t.addEventListener('click', ()=> switchRoom(t.dataset.room, t.textContent)));
+function switchRoom(id, labelText){
+  tabs.forEach(x=>x.classList.toggle('active', x.dataset.room===id));
+  panels.forEach(p => { p.classList.toggle('active', p.id===id); p.setAttribute('aria-hidden', p.id===id ? 'false' : 'true'); });
+  state.activeRoom = id;
+  activeLabel.textContent = labelText;
+  // initialize room objects lazily
+  if(id === 'canvasRoom') ensureParticles();
+  if(id === 'physicsRoom') ensurePhysics();
+  if(id === 'audioRoom') ensureAudio();
+}
+
+// fullscreen
+$('#fullscreenBtn').addEventListener('click', async ()=>{
+  try { if (!document.fullscreenElement) await document.documentElement.requestFullscreen(); else await document.exitFullscreen(); } catch(e){ console.warn(e); }
+});
+
+// reset
+$('#resetBtn').addEventListener('click', ()=>{
+  // reset each lab
+  initParticles();
+  initPhysics();
+  stopAudio();
+});
+
+// UI inputs
+$('#particlesRange').addEventListener('input', e=>{ state.particles = +e.target.value; initParticles(); });
+$('#blendMode').addEventListener('change', e=>{ state.blend = e.target.value; });
+$('#ropeSeg').addEventListener('input', e=>{ state.ropeSeg = +e.target.value; initPhysics(); });
+$('#volume').addEventListener('input', e=>{ state.volume = +e.target.value; if(masterGain) masterGain.gain.value = state.volume; });
+
+// CSS Room interaction
+const cssCard = $('#cssCard'), tryCssBtn = $('#tryCssBtn');
+// Try Me button click effect
+document.getElementById("tryCssBtn").addEventListener("click", () => {
+  const cssLogo = document.querySelector(".logo-3d");
+  cssLogo.classList.toggle("animate");
+});
+
+
+
+tryCssBtn.addEventListener('click', ()=>{
+  // toggle a complex CSS transform sequence (pure CSS) by toggling class
+  cssCard.classList.toggle('activated');
+  // little JS-only extra: briefly pulse background via inline style for contrast
+  cssCard.style.transition = 'box-shadow 0.45s ease';
+  cssCard.style.boxShadow = cssCard.classList.contains('activated') ? '0 30px 80px rgba(255,61,209,0.12)' : '';
+  setTimeout(()=> cssCard.style.boxShadow = '', 700);
+});
+
+// ---------- Canvas Lab (particles) ----------
+let particles = [], particlesInited = false;
+function dprSetCanvas(canvas, ctx){
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = Math.max(1, Math.round(rect.width * devicePixelRatio));
+  canvas.height = Math.max(1, Math.round(rect.height * devicePixelRatio));
+  ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+}
+function resizeCanvases(){ if(mainCanvas) dprSetCanvas(mainCanvas, mainCtx); if(physicsCanvas) dprSetCanvas(physicsCanvas, physCtx); if(audioViz) dprSetCanvas(audioViz, audioVizCtx); }
+window.addEventListener('resize', resizeCanvases);
+function initParticles(){
+  particles = [];
+  particlesInited = true;
+  resizeCanvases();
+  const W = mainCanvas.clientWidth, H = mainCanvas.clientHeight;
+  for(let i=0;i<state.particles;i++){
+    const x = Math.random()*W, y = Math.random()*H;
+    const a = Math.random()*Math.PI*2, s = Math.random()*80+10;
+    particles.push({x,y,vx:Math.cos(a)*s, vy:Math.sin(a)*s, life:Math.random()*0.9+0.2});
+  }
+}
+function ensureParticles(){ if(!particlesInited) initParticles(); }
+function updateParticles(dt){
+  const W = mainCanvas.clientWidth, H = mainCanvas.clientHeight;
+  for(const p of particles){
+    p.x += p.vx*dt; p.y += p.vy*dt;
+    p.vx *= 0.995; p.vy *= 0.995;
+    p.life -= 0.12*dt;
+    if(p.x < -20) p.x = W+20; if(p.x > W+20) p.x = -20;
+    if(p.y < -20) p.y = H+20; if(p.y > H+20) p.y = -20;
+    if(p.life <= 0) { p.x = Math.random()*W; p.y = Math.random()*H; p.vx = (Math.random()-0.5)*120; p.vy = (Math.random()-0.5)*120; p.life = Math.random()*0.9+0.2; }
+  }
+}
+function drawParticles(){
+  const W = mainCanvas.clientWidth, H = mainCanvas.clientHeight;
+  mainCtx.clearRect(0,0,W,H);
+  // soft vignette background
+  const lg = mainCtx.createLinearGradient(0,0,0,H);
+  lg.addColorStop(0, 'rgba(0,0,0,0)');
+  lg.addColorStop(1, 'rgba(0,0,0,0.28)');
+  mainCtx.fillStyle = lg; mainCtx.fillRect(0,0,W,H);
+  mainCtx.globalCompositeOperation = state.blend;
+  for(const p of particles){
+    const r = 1 + 6 * p.life, alpha = 0.55 * p.life;
+    const grd = mainCtx.createRadialGradient(p.x,p.y,0,p.x,p.y,r*3);
+    grd.addColorStop(0, `rgba(255,255,255,${alpha})`);
+    grd.addColorStop(0.08, `rgba(0,255,213,${alpha*0.9})`);
+    grd.addColorStop(0.5, `rgba(0,170,200,${alpha*0.06})`);
+    mainCtx.fillStyle = grd;
+    mainCtx.beginPath(); mainCtx.arc(p.x,p.y, r*2, 0, Math.PI*2); mainCtx.fill();
+  }
+  mainCtx.globalCompositeOperation = 'source-over';
+}
+
+// ---------- Physics Lab (Verlet rope) ----------
+let rope = null, physicsInited = false, dragging = false;
+function initPhysics(){
+  physicsInited = true;
+  resizeCanvases();
+  const seg = Math.max(3, Math.min(64, +$('#ropeSeg').value));
+  const W = physicsCanvas.clientWidth, H = physicsCanvas.clientHeight;
+  rope = {points: [], sticks: []};
+  for(let i=0;i<seg;i++){
+    const x = 60 + i*(W-120)/(seg-1), y = 60 + Math.sin(i/2)*40 + 40;
+    rope.points.push({x, y, oldx: x, oldy: y, pinned: i===0});
+  }
+  for(let i=0;i<seg-1;i++){
+    const a=rope.points[i], b=rope.points[i+1];
+    rope.sticks.push({a:i, b:i+1, length: Math.hypot(b.x-a.x, b.y-a.y)});
+  }
+}
+function ensurePhysics(){ if(!physicsInited) initPhysics(); }
+function verletStep(dt){
+  if(!rope) return;
+  const gravity = 800;
+  for(const p of rope.points){
+    if(p.pinned) continue;
+    const vx = p.x - p.oldx, vy = p.y - p.oldy;
+    p.oldx = p.x; p.oldy = p.y;
+    p.x += vx; p.y += vy + gravity*dt*dt;
+  }
+}
+function satisfyConstraints(){
+  for(let iter=0;iter<6;iter++){
+    for(const s of rope.sticks){
+      const pa = rope.points[s.a], pb = rope.points[s.b];
+      const dx = pb.x - pa.x, dy = pb.y - pa.y;
+      const d = Math.hypot(dx,dy) || 1;
+      const diff = (s.length - d)/d;
+      const offx = dx * 0.5 * diff, offy = dy * 0.5 * diff;
+      if(!pa.pinned){ pa.x -= offx; pa.y -= offy; }
+      if(!pb.pinned){ pb.x += offx; pb.y += offy; }
+    }
+  }
+}
+function drawRope(){
+  physCtx.clearRect(0,0,physicsCanvas.clientWidth, physicsCanvas.clientHeight);
+  if(!rope) return;
+  physCtx.lineWidth = 2; physCtx.strokeStyle = 'rgba(0,230,213,0.95)';
+  physCtx.beginPath();
+  for(let i=0;i<rope.points.length;i++){
+    const p = rope.points[i];
+    if(i===0) physCtx.moveTo(p.x, p.y); else physCtx.lineTo(p.x, p.y);
+  }
+  physCtx.stroke();
+  for(const p of rope.points){
+    physCtx.beginPath(); physCtx.fillStyle = p.pinned ? 'rgba(255,100,100,0.95)' : 'white'; physCtx.arc(p.x,p.y,4,0,Math.PI*2); physCtx.fill();
+  }
+}
+physicsCanvas.addEventListener('pointerdown', e=>{
+  const r = physicsCanvas.getBoundingClientRect();
+  const x = (e.clientX - r.left), y = (e.clientY - r.top);
+  if(!rope) return;
+  rope.points[rope.points.length-1].x = x; rope.points[rope.points.length-1].y = y; dragging = true;
+});
+window.addEventListener('pointermove', e=>{
+  if(!dragging || !rope) return;
+  const r = physicsCanvas.getBoundingClientRect();
+  rope.points[rope.points.length-1].x = (e.clientX - r.left);
+  rope.points[rope.points.length-1].y = (e.clientY - r.top);
+});
+window.addEventListener('pointerup', ()=> dragging = false);
+
+// ---------- Audio Lab ----------
+// ---------- Audio Lab (Safe Singleton) ----------
+if (!window.audioLab) {
+  window.audioLab = (() => {
+    let audioCtx = null,
+        masterGain = null,
+        analyser = null,
+        vizRunning = false;
+
+    const audioViz = document.getElementById('audioViz');
+    const audioVizCtx = audioViz.getContext('2d');
+
+    function ensureAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        masterGain = audioCtx.createGain();
+        masterGain.gain.value = state.volume;
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 1024;
+
+        masterGain.connect(analyser);
+        analyser.connect(audioCtx.destination);
+
+        // Start visualizer loop ONCE
+        if (!vizRunning) {
+          vizRunning = true;
+          requestAnimationFrame(drawAudioViz);
+        }
+      }
+    }
+
+    function playNote(freq = 440, wave = 'sine', duration = 0.6) {
+      ensureAudio();
+
+      const osc = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      osc.type = wave;
+      osc.frequency.value = freq;
+
+      osc.connect(g);
+      g.gain.setValueAtTime(0, audioCtx.currentTime);
+      g.gain.linearRampToValueAtTime(0.9, audioCtx.currentTime + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+      g.connect(masterGain);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration + 0.02);
+    }
+
+    function stopAudio() {
+      if (audioCtx) {
+        try { audioCtx.close(); } catch (e) {}
+        audioCtx = null;
+        masterGain = null;
+        analyser = null;
+        vizRunning = false;
+      }
+    }
+
+    function drawAudioViz() {
+      if (!analyser) return;
+
+      const w = audioViz.clientWidth;
+      const h = audioViz.clientHeight;
+
+      if (audioViz.width !== w || audioViz.height !== h) {
+        audioViz.width = w;
+        audioViz.height = h;
+      }
+
+      const data = new Uint8Array(analyser.frequencyBinCount);
+      analyser.getByteFrequencyData(data);
+
+      audioVizCtx.clearRect(0, 0, w, h);
+      const barW = w / data.length;
+
+      for (let i = 0; i < data.length; i++) {
+        const v = data[i] / 255;
+        const x = i * barW;
+        const gh = v * h;
+        audioVizCtx.fillStyle = `rgba(${Math.floor(120 + v * 120)}, ${Math.floor(200 - v * 80)}, 255, 0.9)`;
+        audioVizCtx.fillRect(x, h - gh, barW * 0.8, gh);
+      }
+
+      requestAnimationFrame(drawAudioViz);
+    }
+
+    // Attach events only once
+    document.getElementById('playNote')?.addEventListener('click', () => {
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      const wave = document.getElementById('waveSelect')?.value || 'sine';
+      const freq = +document.getElementById('freqSlider')?.value || 440;
+      playNote(freq, wave, 0.8);
+    });
+
+    return { playNote, stopAudio };
+  })();
+}
+
+// ---------- Main loop ----------
+let last = performance.now();
+function tick(now){
+  const dt = Math.min(0.035, (now - last)/1000);
+  last = now;
+  // active room handling
+  if(state.activeRoom === 'canvasRoom' && particlesInited){
+    updateParticles(dt); drawParticles();
+  }
+  if(state.activeRoom === 'physicsRoom' && physicsInited){
+    verletStep(dt); satisfyConstraints(); drawRope();
+  }
+  if(state.activeRoom === 'audioRoom' && analyser){
+    drawAudioViz();
+  }
+  requestAnimationFrame(tick);
+}
+
+// init everything on load
+function initAll(){
+  resizeCanvases();
+  initParticles(); initPhysics();
+  // attach audio canvas pixel ratio
+  const av = audioViz.getBoundingClientRect(); audioViz.width = Math.round(av.width * devicePixelRatio); audioViz.height = Math.round(av.height * devicePixelRatio); audioVizCtx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+  // start loop
+  last = performance.now(); requestAnimationFrame(tick);
+}
+window.addEventListener('load', initAll);
+
+// expose debug
+window.CP = { initParticles, initPhysics, ensureAudio, playNote };
+</script>
+</body>
+</html>
